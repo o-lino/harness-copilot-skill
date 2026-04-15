@@ -1,0 +1,52 @@
+name: Harness CI — Sensors
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  harness-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ─── Sensor 1: Maintainability ───
+      - name: Lint (Maintainability Sensor)
+        run: npm run lint
+        # ESLint / Prettier / ruff / pylint
+        # Garante legibilidade e consistência de estilo
+
+      # ─── Sensor 2: Computational (Type Check) ───
+      - name: Type Check (Computational Sensor)
+        run: npx tsc --noEmit
+        # TypeScript / mypy / pyright
+        # Garante correção de tipos em tempo de compilação
+
+      # ─── Sensor 3: Behaviour (Tests) ───
+      - name: Tests (Behaviour Sensor)
+        run: npm test -- --coverage --coverage-threshold=80
+        # Jest / pytest / vitest
+        # Garante correção funcional e cobertura mínima
+
+      # ─── Sensor 4: Architecture Fitness ───
+      - name: Architecture Check (Fitness Sensor)
+        run: npx dependency-cruiser src --config .dependency-cruiser.js
+        # ArchUnit / dependency-cruiser / custom rules
+        # Garante conformidade com decisões arquiteturais
+
+      # ─── Sensor 5: Build ───
+      - name: Build
+        run: npm run build
+        # Garante que o projeto compila sem erros
