@@ -84,7 +84,7 @@ graph LR
 
 | Estado | Onde é armazenado | Quem acessa |
 |---|---|---|
-| Spec | `.kiro/specs/` | Todos os agentes |
+| Spec | `specs/` | Todos os agentes |
 | Código gerado | `src/` | Developer + QA |
 | Test results | `test-results/` | QA + Orchestrator |
 | Decisões | `decisions.md` | Todos os agentes |

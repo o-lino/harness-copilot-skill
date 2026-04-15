@@ -38,7 +38,7 @@ Microserviço responsável por processar pedidos de um e-commerce. Deve validar 
 ## Harness
 
 ### Guides
-- Spec aprovada em `.kiro/specs/pedidos/` (gate obrigatório)
+- Spec aprovada em `specs/pedidos/` (gate obrigatório)
 - `AGENTS.md` com regra: "NÃO escreva código sem spec aprovada"
 
 ### Sensors

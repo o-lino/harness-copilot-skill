@@ -1,6 +1,11 @@
-# 🧭 Protocolo de Descoberta Interativa — Harness Engineering
+---
+trigger: always_on
+alwaysApply: true
+---
 
-> **Propósito:** Antes de gerar QUALQUER spec, template ou código, o agente DEVE conduzir uma sessão de descoberta interativa para desambiguar profundamente o domínio, contexto, restrições e necessidades do projeto.
+# Protocolo de Descoberta Interativa — Harness Engineering
+
+> **Propósito:** Antes de gerar QUALQUER spec, template ou código, conduza uma sessão de descoberta interativa para desambiguar profundamente o domínio, contexto, restrições e necessidades do projeto.
 >
 > **Regra de Ouro:** NUNCA gere spec ou código sem antes passar por este protocolo de perguntas. Perguntas profundas geram specs precisas. Specs precisas geram código correto.
 
@@ -19,6 +24,8 @@ FASE 3: Restrições e Requisitos
     ↓ (respostas coletadas)
 FASE 4: Design do Harness
     ↓ (respostas coletadas)
+SÍNTESE + CONFIRMAÇÃO
+    ↓ (usuário aprova)
 GERAÇÃO DA SPEC
 ```
 
@@ -53,7 +60,7 @@ GERAÇÃO DA SPEC
 - Existem contratos de dados definidos? SLAs de qualidade?
 
 **Se o domínio é API/WEB:**
-- Quantos endpoints预计ados?
+- Quantos endpoints esperados?
 - Existe autenticação/autorização? Qual?
 - Há integração com sistemas externos?
 
@@ -175,7 +182,7 @@ GERAÇÃO DA SPEC
 
 ## Após as Perguntas: Síntese e Confirmação
 
-Depois de coletar todas as respostas, o agente DEVE:
+Depois de coletar todas as respostas, você DEVE:
 
 ### 1. Gerar um Resumo de Descoberta
 
@@ -218,9 +225,9 @@ Depois de coletar todas as respostas, o agente DEVE:
 ### 3. Gerar a Spec
 
 Só após confirmação, gerar:
-- `requirements.md` (EARS)
-- `design.md` (arquitetura)
-- `tasks.md` (implementação)
+- `specs/{feature}/requirements.md` (EARS)
+- `specs/{feature}/design.md` (arquitetura)
+- `specs/{feature}/tasks.md` (implementação)
 
 ---
 
@@ -240,7 +247,7 @@ Para projetos complexos, enterprise, ou quando o usuário não tem clareza:
 
 → Seguir o protocolo completo (Fases 1-4)
 
-O agente deve sugerir o modo profundo quando detectar:
+Você deve sugerir o modo profundo quando detectar:
 - Múltiplas equipes envolvidas
 - Dados sensíveis ou compliance
 - Integrações complexas
@@ -255,11 +262,11 @@ O agente deve sugerir o modo profundo quando detectar:
 Quando o usuário dá uma resposta vaga, pergunte "por quê?" até chegar na raiz.
 
 > Usuário: "Preciso de uma API."
-> Agente: "Por quê? O que essa API vai habilitar?"
+> Você: "Por quê? O que essa API vai habilitar?"
 > Usuário: "Para o app mobile acessar dados."
-> Agente: "Por que o app precisa desses dados? O que o usuário faz com eles?"
+> Você: "Por que o app precisa desses dados? O que o usuário faz com eles?"
 > Usuário: "Consulta o status do pedido."
-> Agente: "Entendi. Então o problema é: usuários não conseguem acompanhar pedidos no mobile. Correto?"
+> Você: "Entendi. Então o problema é: usuários não conseguem acompanhar pedidos no mobile. Correto?"
 
 ### 2. Cenário "E se..."
 Teste limites do sistema com cenários hipotéticos.
@@ -268,7 +275,7 @@ Teste limites do sistema com cenários hipotéticos.
 > "E se o volume de dados triplicar amanhã?"
 > "E se a equipe dobrar de tamanho em 3 meses?"
 
-### 3. Trade-off Explicito
+### 3. Trade-off Explícito
 Force o usuário a escolher entre opções conflitantes.
 
 > "Você prefere: velocidade de entrega ou qualidade do código? Ambos não são possíveis simultaneamente neste prazo."
@@ -288,11 +295,11 @@ Peça o que NÃO é para entender os limites.
 
 ---
 
-## 📚 Bancos de Perguntas por Domínio
+## Bancos de Perguntas por Domínio
 
 > Use estas perguntas adicionais após o protocolo base (13 perguntas) para aprofundar no domínio específico.
 
-### 🗄️ Data Engineering / Data Lakes
+### Data Engineering / Data Lakes
 
 | # | Pergunta | Por que perguntar |
 |---|---|---|
@@ -309,11 +316,11 @@ Peça o que NÃO é para entender os limites.
 | D11 | Existem contratos de dados entre equipes? | Define acoplamento organizacional |
 | D12 | O que acontece se um pipeline falhar? Qual o impacto? | Define criticalidade e retry strategy |
 
-### 🌐 API / Web Applications
+### API / Web Applications
 
 | # | Pergunta | Por que perguntar |
 |---|---|---|
-| W1 | Quantos endpoints预计ados? | Define escopo da API |
+| W1 | Quantos endpoints esperados? | Define escopo da API |
 | W2 | Qual o padrão de autenticação? (JWT, OAuth2, API Key, session?) | Define security design |
 | W3 | Existe rate limiting? Qual o threshold? | Define infra requirements |
 | W4 | Qual o tempo de resposta aceitável? (p95, p99?) | Define performance targets |
@@ -326,7 +333,7 @@ Peça o que NÃO é para entender os limites.
 | W11 | Há webhooks ou eventos em tempo real? | Define architecture pattern |
 | W12 | Qual o plano de rollback se um deploy falhar? | Define deploy strategy |
 
-### 🏗️ Infrastructure / CI-CD
+### Infrastructure / CI-CD
 
 | # | Pergunta | Por que perguntar |
 |---|---|---|
@@ -343,7 +350,7 @@ Peça o que NÃO é para entender os limites.
 | I11 | Existe compliance de infra? (SOC2, HIPAA, PCI?) | Define security controls |
 | I12 | Quem aprova deploys em produção? | Define governance |
 
-### 📱 Mobile Applications
+### Mobile Applications
 
 | # | Pergunta | Por que perguntar |
 |---|---|---|
@@ -358,7 +365,7 @@ Peça o que NÃO é para entender os limites.
 | M9 | Existe deep linking? Universal links? | Define navigation architecture |
 | M10 | Há analytics? Qual ferramenta? | Define tracking requirements |
 
-### 🤖 AI / Machine Learning
+### AI / Machine Learning
 
 | # | Pergunta | Por que perguntar |
 |---|---|---|
@@ -373,7 +380,7 @@ Peça o que NÃO é para entender os limites.
 | A9 | O modelo precisa de explainability? | Define model complexity trade-off |
 | A10 | Qual o custo de inferência por request? | Define cost optimization |
 
-### 🔒 Security / Compliance
+### Security / Compliance
 
 | # | Pergunta | Por que perguntar |
 |---|---|---|
@@ -387,3 +394,7 @@ Peça o que NÃO é para entender os limites.
 | S8 | Há audit logging? O que é logado? | Define compliance tracking |
 | S9 | Existe gestão de vulnerabilidades? SLA de correção? | Define patch management |
 | S10 | Há controle de acesso por role? (RBAC, ABAC?) | Define authorization model |
+
+---
+
+*Protocolo de Descoberta Interativa — Parte da Harness Engineering Skill v2.0*

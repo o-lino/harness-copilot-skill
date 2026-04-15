@@ -41,7 +41,7 @@ Uma loja online precisa de um CRUD básico para gerenciar produtos: nome, preço
 
 ### Guides
 - `AGENTS.md` na raiz (instruções permanentes)
-- Spec em `.kiro/specs/catalogo/`
+- Spec em `specs/catalogo/`
 
 ### Sensors
 | Sensor | Ferramenta | Gate |

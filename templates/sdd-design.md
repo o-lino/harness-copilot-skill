@@ -1,6 +1,6 @@
 # Design Arquitetural — {NOME_DA_FEATURE}
 
-> **Spec:** `.kiro/specs/{feature}/design.md`  
+> **Spec:** `specs/{feature}/design.md`  
 > **Data:** {DD/MM/AAAA}  
 > **Status:** Rascunho | Aprovado
 

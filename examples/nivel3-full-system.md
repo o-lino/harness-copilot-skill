@@ -49,7 +49,7 @@ Sistema de gestão de biblioteca: empréstimos, devoluções, reservas e multas.
 ## Harness
 
 ### Guides
-- Spec em `.kiro/specs/biblioteca/` — ÚNICO input humano
+- Spec em `specs/biblioteca/` — ÚNICO input humano
 - Prompt do agente: "Gere TODO o código, testes e docs a partir desta spec"
 
 ### Sensors (loop automático)
@@ -79,7 +79,7 @@ biblioteca/
 │   └── notifications/   # Email service (auto-gerado)
 ├── tests/               # Testes (auto-gerados da spec)
 ├── docs/                # Documentação (auto-gerada da spec)
-└── .kiro/specs/         # Spec (único artefato humano)
+└── specs/         # Spec (único artefato humano)
 ```
 
 ```python

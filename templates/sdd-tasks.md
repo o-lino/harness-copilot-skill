@@ -1,6 +1,6 @@
 # Tasks de Implementação — {NOME_DA_FEATURE}
 
-> **Spec:** `.kiro/specs/{feature}/tasks.md`  
+> **Spec:** `specs/{feature}/tasks.md`  
 > **Data:** {DD/MM/AAAA}  
 > **SDD Level:** L1 | L2 | L3
 

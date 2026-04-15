@@ -21,7 +21,7 @@ O **modelo** (GPT-4, Claude, Gemini) é uma caixa preta. O **harness** é tudo q
 ## 🧭 Protocolo de Descoberta Interativa (OBRIGATÓRIO)
 
 > **ANTES de gerar qualquer spec, template ou código, conduza uma sessão de descoberta interativa.**
-> Veja `INTERACTIVE.md` para o protocolo completo de perguntas.
+> Veja `.github/instructions/discovery.instructions.md` para o protocolo completo de perguntas.
 
 ### Regras do Protocolo
 
@@ -39,7 +39,7 @@ O **modelo** (GPT-4, Claude, Gemini) é uma caixa preta. O **harness** é tudo q
 5. Quais sensors?
 
 ### Modo Profundo (projetos complexos)
-→ Siga o protocolo completo de 4 fases em `INTERACTIVE.md` (13+ perguntas com aprofundamento condicional).
+→ Siga o protocolo completo de 4 fases em `.github/instructions/discovery.instructions.md` (13+ perguntas com aprofundamento condicional).
 
 ### Gatilhos para Modo Profundo
 Use modo profundo quando detectar:

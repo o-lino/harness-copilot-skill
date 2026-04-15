@@ -1,6 +1,6 @@
 # Requisitos — {NOME_DA_FEATURE}
 
-> **Spec:** `.kiro/specs/{feature}/requirements.md`
+> **Spec:** `specs/{feature}/requirements.md`
 > **Data:** {DD/MM/AAAA}
 > **Status:** Rascunho | Aprovado | Implementado
 > **SDD Level:** L1 | L2 | L3

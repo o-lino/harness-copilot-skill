@@ -32,9 +32,9 @@ cp -r harness-copilot-skill/templates .
 ### Passo 3: Inicie com um template
 
 ```bash
-cp templates/sdd-requirements.md .kiro/specs/{feature}/requirements.md
-cp templates/sdd-design.md .kiro/specs/{feature}/design.md
-cp templates/sdd-tasks.md .kiro/specs/{feature}/tasks.md
+cp templates/sdd-requirements.md specs/specs/{feature}/requirements.md
+cp templates/sdd-design.md specs/specs/{feature}/design.md
+cp templates/sdd-tasks.md specs/specs/{feature}/tasks.md
 ```
 
 ### Passo 4: Preencha a spec com suas respostas
@@ -44,7 +44,7 @@ Use as respostas das 5 perguntas para preencher os templates.
 ### Passo 5: Peça ao Copilot para gerar código
 
 Com a spec preenchida, peça ao Copilot:
-> "Gere o código seguindo a spec em `.kiro/specs/{feature}/`"
+> "Gere o código seguindo a spec em `specs/specs/{feature}/`"
 
 ---
 
@@ -87,7 +87,7 @@ seu-projeto/
 │   ├── copilot-instructions.md        # ← Copie de harness-copilot-skill/.github/
 │   └── workflows/
 │       └── harness-ci.yaml            # ← Baseado em templates/harness-sensors.yaml
-├── .kiro/
+├── specs/
 │   └── specs/
 │       └── {feature}/
 │           ├── requirements.md        # ← Gerado a partir do template
@@ -106,7 +106,7 @@ seu-projeto/
 |---|---|
 | Iniciar projeto novo | "Vamos fazer a descoberta interativa para um novo projeto" |
 | Criar nova feature | "Preciso de uma spec para {feature}. Vamos fazer a descoberta?" |
-| Gerar código | "Gere o código seguindo a spec em `.kiro/specs/{feature}/`" |
+| Gerar código | "Gere o código seguindo a spec em `specs/specs/{feature}/`" |
 | Configurar CI/CD | "Configure os harness sensors baseado no meu projeto" |
 | Corrigir bug | "Crie uma spec para este bug: {descrição}" |
 | Data pipeline | "Vamos fazer a descoberta para um data pipeline" |
@@ -130,7 +130,7 @@ seu-projeto/
 
 - [ ] Copiei `AGENTS.md` para a raiz do projeto
 - [ ] Copiei `.github/copilot-instructions.md`
-- [ ] Criei `.kiro/specs/{feature}/` com os 3 arquivos de spec
+- [ ] Criei `specs/specs/{feature}/` com os 3 arquivos de spec
 - [ ] Preenchi a spec com dados reais do projeto
 - [ ] Configurei CI/CD com sensors (pelo menos lint + type-check + tests)
 - [ ] Pedi ao Copilot para gerar código a partir da spec
