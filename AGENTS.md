@@ -153,3 +153,51 @@ Antes de considerar qualquer implementação como "pronta":
 | "Data pipeline" | 🧭 **Descoberta interativa** → depois A-RAG ou auto-healing |
 | "Escalar time" | 🧭 **Descoberta interativa** → depois selecionar padrão multi-agente |
 | "Apenas gere o código" | 🧭 **Recuse educadamente** → explique por que a descoberta é essencial |
+---
+
+## Mapa de Arquivos do Copilot
+
+Este repositorio usa a arquitetura nativa do GitHub Copilot. Todos os arquivos de instrucao estao mapeados abaixo:
+
+### Instrucoes Principais
+| Arquivo | Escopo | Funcao |
+|---|---|---|
+| `.github/copilot-instructions.md` | Repositorio inteiro | Contexto permanente, regras fundamentais |
+| `AGENTS.md` (este arquivo) | Raiz | Instrucoes permanentes para qualquer agente |
+
+### Custom Agent
+| Arquivo | Funcao |
+|---|---|
+| `.github/agents/harness-architect.agent.md` | Agente principal: persona, fluxo de trabalho, project knowledge, limites |
+
+### Path-Specific Instructions
+| Arquivo | applyTo | Funcao |
+|---|---|---|
+| `.github/instructions/discovery.instructions.md` | `**` | Protocolo interativo de descoberta |
+| `.github/instructions/sdd.instructions.md` | `**/*.md` | Regras SDD, formato EARS, traceabilidade |
+
+### Skills Reutilizaveis
+| Skill | Caminho | Quando usar |
+|---|---|---|
+| Discovery | `.github/skills/discovery/SKILL.md` | ANTES de gerar specs - 4 fases, 13 perguntas |
+| SDD | `.github/skills/sdd/SKILL.md` | DURANTE geracao - EARS, anatomia, traceabilidade |
+
+### Estrutura Completa
+```
+harness-copilot-skill/
+├── AGENTS.md                              # Este arquivo
+├── .github/
+│   ├── copilot-instructions.md            # Instrucoes gerais
+│   ├── agents/harness-architect.agent.md  # Custom Agent
+│   ├── instructions/
+│   │   ├── discovery.instructions.md     # Descoberta (applyTo: **)
+│   │   └── sdd.instructions.md           # SDD (applyTo: **/*.md)
+│   └── skills/
+│       ├── discovery/SKILL.md             # Skill de descoberta
+│       └── sdd/SKILL.md                   # Skill de SDD
+├── specs/                                 # Specs geradas
+├── templates/                             # 8 templates
+├── examples/                              # 5 exemplos
+├── README.md
+└── QUICKSTART.md
+```

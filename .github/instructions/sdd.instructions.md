@@ -1,6 +1,5 @@
 ---
-trigger: always_on
-applyTo: '**/*.md'
+applyTo: "**/*.md"
 ---
 
 # Spec-Driven Development (SDD) - Instrucoes

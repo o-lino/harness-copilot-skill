@@ -1,6 +1,5 @@
 ---
-trigger: always_on
-alwaysApply: true
+applyTo: "**"
 ---
 
 # Protocolo de Descoberta Interativa — Harness Engineering

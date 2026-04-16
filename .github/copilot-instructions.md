@@ -275,17 +275,65 @@ Antes de considerar qualquer implementação como "pronta":
 
 ---
 
-## Arquitetura de Instruções deste Repositório
+## Arquitetura de Instrucoes deste Repositorio
 
-Este repositório usa a arquitetura nativa do GitHub Copilot:
+Este repositorio usa a arquitetura nativa do GitHub Copilot (2025/2026):
 
-| Arquivo | Escopo | Função |
+### Camada 1: Instrucoes do Repositorio
+| Arquivo | Caminho | Escopo | Funcao |
+|---|---|---|---|
+| Copilot Instructions | `.github/copilot-instructions.md` | Repositorio inteiro | Contexto permanente, regras fundamentais, fluxos de trabalho |
+
+### Camada 2: Path-Specific Instructions
+| Arquivo | Caminho | Escopo (applyTo) | Funcao |
+|---|---|---|---|
+| Discovery Instructions | `.github/instructions/discovery.instructions.md` | `**` (todos os arquivos) | Protocolo interativo de descoberta (4 fases, 13+ perguntas) |
+| SDD Instructions | `.github/instructions/sdd.instructions.md` | `**/*.md` | Regras SDD, formato EARS, traceabilidade |
+
+### Camada 3: Custom Agents
+| Arquivo | Caminho | Funcao |
 |---|---|---|
-| `.github/copilot-instructions.md` | **Repositório inteiro** | Contexto permanente, regras fundamentais, fluxos de trabalho |
-| `.github/instructions/discovery.instructions.md` | `**` (todos os arquivos) | Protocolo interativo de descoberta (4 fases, 13+ perguntas) |
-| `.github/instructions/sdd.instructions.md` | `**/*.md` | Regras SDD, templates de spec, formato EARS |
-| `AGENTS.md` | **Raiz (padrão aberto)** | Instruções permanentes para qualquer agente de IA |
+| Harness Architect | `.github/agents/harness-architect.agent.md` | Agente customizado com persona, fluxo de trabalho, project knowledge e limites |
 
----
+### Camada 4: Skills Reutilizaveis
+| Arquivo | Caminho | Quando usar |
+|---|---|---|
+| Discovery Skill | `.github/skills/discovery/SKILL.md` | ANTES de gerar specs - protocolo de 4 fases com 13 perguntas e aprofundamento |
+| SDD Skill | `.github/skills/sdd/SKILL.md` | DURANTE geracao de specs - formato EARS, anatomia de spec, traceabilidade |
 
+### Camada 5: Instrucoes Permanentes (Padrao Aberto)
+| Arquivo | Caminho | Funcao |
+|---|---|---|
+| AGENTS.md | `AGENTS.md` (raiz) | Instrucoes permanentes para qualquer agente de IA que acessar o repositorio |
+
+### Mapa Completo de Arquivos
+
+```
+harness-copilot-skill/
+├── AGENTS.md                              # Instrucoes permanentes (raiz)
+├── .github/
+│   ├── copilot-instructions.md            # Instrucoes gerais do Copilot
+│   ├── agents/
+│   │   └── harness-architect.agent.md     # Custom Agent principal
+│   ├── instructions/
+│   │   ├── discovery.instructions.md     # Protocolo de descoberta (applyTo: **)
+│   │   └── sdd.instructions.md           # Regras SDD (applyTo: **/*.md)
+│   └── skills/
+│       ├── discovery/
+│       │   └── SKILL.md                  # Skill de descoberta interativa
+│       └── sdd/
+│           └── SKILL.md                  # Skill de Spec-Driven Development
+├── specs/                                 # Specs geradas (vazio com .gitkeep)
+├── templates/                             # 8 templates reutilizaveis
+├── examples/                              # 5 exemplos SDD L1-L3
+├── README.md                              # Documentacao do repositorio
+└── QUICKSTART.md                          # Guia rapido
+```
+
+### Como o Copilot Carrega as Instrucoes
+
+1. **Sempre carrega:** `.github/copilot-instructions.md` + `AGENTS.md`
+2. **Por path:** `.github/instructions/*.instructions.md` aplicam-se conforme `applyTo:` glob
+3. **Por agente:** `.github/agents/*.agent.md` ativam-se quando o usuario seleciona o agente
+4. **On-demand:** `.github/skills/*/SKILL.md` sao invocadas explicitamente nas instrucoes
 *Esta configuração foi construída a partir de ~6.000 linhas de pesquisa extensiva sobre o estado da arte em Harness Engineering, Spec-Driven Development e Multi-Agent Workflows — Abril 2026.*
