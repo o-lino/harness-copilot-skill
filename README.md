@@ -1,6 +1,6 @@
-# Harness Engineering — GitHub Copilot Skill (v2.0)
+# Harness Engineering — GitHub Copilot Skill (v3.0)
 
-> **O estado da arte em Spec-Driven Development, Multi-Agent Workflows e AI-Augmented Software Engineering.**
+> **O estado da arte em Harness Engineering, SDD, Multi-Agent Workflows e AI-Augmented Software Engineering.**
 >
 > Uma configuracao nativa para GitHub Copilot que transforma qualquer agente de IA em um arquiteto de Harness Engineering — projetando sistemas que ensinam, corrigem e validam agentes na construcao de software.
 
@@ -13,7 +13,25 @@
 
 ## O que e isto
 
-Este projeto e uma **configuracao nativa para GitHub Copilot** baseada em ~6.000 linhas de pesquisa extensiva sobre as tres metodologias emergentes de engenharia de software com IA:
+Este projeto e uma **configuracao nativa para GitHub Copilot** baseada em ~6.000 linhas de pesquisa extensiva, validada contra o repositorio [awesome-harness-engineering](https://github.com/walkinglabs/awesome-harness-engineering).
+
+### Novidades v3.0
+
+Alem dos conceitos fundamentais (Harness, SDD, Multi-Agent), v3.0 incorpora todos os conceitos avancados do awesome-harness-engineering:
+
+| Conceito | Fonte |
+|---|---|
+| **Garbage Collection / Entropy Management** | OpenAI: Harness Engineering |
+| **Initializer Agent Pattern** | Anthropic: Long-Running Agents |
+| **Evaluator-Optimizer Loop** | Anthropic: Building Effective Agents |
+| **Steering Loop** | ThoughtWorks: Harness Engineering |
+| **12-Factor Agents** | HumanLayer |
+| **Context Rot Management** | LangChain: Anatomy of Agent Harness |
+| **Custom Linters com Remediation** | OpenAI: Harness Engineering |
+| **Agent Legibility + Ambient Affordances** | ThoughtWorks + OpenAI |
+| **Eval & Observability** | awesome-harness-engineering (evals) |
+| **Prompt Injection Mitigation** | OpenHands |
+| **Parse-Don't-Validate** | OpenAI: Harness Engineering |
 
 1. **Harness Engineering** — Projetar sistemas que ensinam e corrigem agentes
 2. **Spec-Driven Development (SDD)** — Specs como fonte de verdade, nao documentacao pos-fato
@@ -33,18 +51,19 @@ O **modelo** (GPT-4, Claude, Gemini) e uma caixa preta que voce nao controla. O 
 
 ## Arquitetura Copilot-Nativa
 
-Este repositorio usa a arquitetura oficial do GitHub Copilot (2025/2026):
+Este repositorio usa a arquitetura oficial do GitHub Copilot (2025/2026) com **Progressive Disclosure** (HumanLayer):
 
 | Arquivo | Escopo | Funcao |
 |---|---|---|
-| `.github/copilot-instructions.md` | **Repositorio inteiro** | Contexto permanente: equacao fundamental, taxonomia do harness, fluxos de trabalho |
+| `.github/copilot-instructions.md` | **Repositorio inteiro** | TOC/Map com progressive disclosure (v3.0: ~100 linhas) |
 | `.github/instructions/discovery.instructions.md` | `**` (todos os arquivos) | Protocolo interativo de descoberta (4 fases, 13+ perguntas, 60+ por dominio) |
 | `.github/instructions/sdd.instructions.md` | `**/*.md` | Regras SDD: formato EARS, anatomia de spec, quatro pilares |
-| `.github/agents.md` | **Copilot Coding Agent** | Instrucoes especificas para o agente de implementacao |
-| `AGENTS.md` | **Raiz (padrao aberto)** | Instrucoes permanentes para qualquer agente de IA |
+| `.github/agents/harness-architect.agent.md` | **Custom Agent** | Agente principal com persona, workflow e limites |
+| `AGENTS.md` | **Raiz (padrao aberto)** | Instrucoes permanentes para qualquer agente de IA (v3.0: todos os conceitos avancados) |
 
 ### Por que esta estrutura?
 
+- **Progressive Disclosure** — `copilot-instructions.md` e TOC, nao enciclopedia (HumanLayer)
 - **Copilot detecta automaticamente** `.github/copilot-instructions.md` como contexto permanente
 - **Instructions modulares** (`.github/instructions/`) permitem regras especificas por tipo de arquivo
 - **`AGENTS.md` na raiz** segue o padrao aberto adotado por Claude Code, Cursor, e outros
@@ -99,13 +118,14 @@ specs/{feature}/
 | **Computational** | Type safety, compilacao | tsc, mypy, pyright |
 | **Inferencial** | Qualidade via LLM | LLM-as-judge, code review por agente |
 
-### Multi-Agent Workflows (5 Padroes)
+### Multi-Agent Workflows (6 Padroes)
 
 - **Sequential** — Dependencia linear
 - **Fan-Out / Fan-In** — Paralelizacao de sub-tarefas
 - **Orchestrator-Worker** — Divisao dinamica
 - **Hierarchical** — Multi-camadas de gestao
 - **Event-Driven** — Sistemas reativos assincronos
+- **Evaluator-Optimizer** — Loop geracao → avaliacao → otimizacao (Anthropic)
 
 ### Dominios Cobertos
 
@@ -115,6 +135,52 @@ specs/{feature}/
 - Mobile Applications
 - AI / Machine Learning
 - Security / Compliance
+
+---
+
+## Conceitos Avancados (v3.0)
+
+### Gestao de Entropia (Garbage Collection)
+
+Codebases sofrem entropia continua. Sem GC ativo, specs e docs desatualizam silenciosamente:
+- **Doc-Gardening Agent** — Valida docs vs codigo real periodicamente
+- **Continuous Debt Paydown** — Cada feature nova paga divida existente
+- **Auto-Healing Instructions** — Linter errors injetam instrucoes corretivas no contexto
+
+### Initializer Agent Pattern
+
+Para tarefas complexas:
+1. **Initializer** analisa escopo → gera `feature-list.json`
+2. **Workers** consomem tasks sequencialmente com progresso em `claude-progress.txt`
+3. **Self-verification** ao final confere se todas as features foram implementadas
+
+### Evaluator-Optimizer Loop
+
+Dois agentes em loop: Generator produz → Evaluator avalia → Feedback → Generator refaz. Ideal para codigo critico onde qualidade > velocidade.
+
+### Steering Loop
+
+Quando um problema se repete, e bug no harness, nao no codigo. Humano atualiza o harness para prevenir recorrencia.
+
+### 12-Factor Agents
+
+Own prompts, own context, own tools, stateless reducer, pause/resume, telemetry, observability, disposable, e mais.
+
+### Context Rot Management
+
+Compaction de conversas longas, referencias em vez de copia, budget de context window (40/30/20/10).
+
+### Custom Linters com Remediation
+
+Linters nao apenas detectam — ensinam. Cada erro injeta instrucao corretiva com exemplo de correcao no contexto do agente.
+
+### Agent Legibility + Ambient Affordances
+
+Otimize o repositorio para que agentes raciocinem melhor: nomes explicitos, estrutura previsivel, indices de contexto, exemplos executaveis.
+
+### Eval & Observability
+
+Trace grading, systematic evals, deterministic verifiers, no-skill baselines, telemetria OpenTelemetry-compatible.
 
 ---
 
@@ -155,27 +221,31 @@ Leia `QUICKSTART.md` para inicio em 5 minutos.
 
 ```
 harness-copilot-skill/
-├── AGENTS.md                          # Instrucoes permanentes (padrao aberto)
+├── AGENTS.md                          # Instrucoes permanentes (v3.0 com conceitos avancados)
 ├── QUICKSTART.md                      # Guia de inicio rapido (5 minutos)
 ├── README.md                          # Esta documentacao
 ├── CONTRIBUTING.md                    # Guia de contribuicao
 ├── LICENSE                            # Licenca MIT
 │
 ├── .github/
-│   ├── copilot-instructions.md        # Copilot: contexto permanente do repositorio
-│   ├── agents.md                      # Copilot Coding Agent: regras de implementacao
-│   └── instructions/
-│       ├── discovery.instructions.md  # Protocolo interativo (4 fases, 70+ perguntas)
-│       └── sdd.instructions.md        # Regras SDD, formato EARS, anatomia de spec
+│   ├── copilot-instructions.md        # Copilot: TOC com progressive disclosure (v3.0)
+│   ├── agents/
+│   │   └── harness-architect.agent.md # Custom Agent principal (v3.0)
+│   ├── instructions/
+│   │   ├── discovery.instructions.md  # Protocolo interativo (4 fases, 70+ perguntas)
+│   │   └── sdd.instructions.md        # Regras SDD, formato EARS, anatomia de spec
+│   └── skills/
+│       ├── discovery/SKILL.md         # Skill de descoberta
+│       └── sdd/SKILL.md               # Skill de SDD
 │
 ├── templates/
 │   ├── sdd-requirements.md            # Template de requisitos EARS
 │   ├── sdd-design.md                  # Template de design arquitetural
 │   ├── sdd-tasks.md                   # Template de tasks implementaveis
-│   ├── harness-sensors.yaml           # GitHub Actions com 5 sensors
+│   ├── harness-sensors.yaml           # GitHub Actions com sensors + evals + GC
 │   ├── data-contract.md               # Template de contrato de dados
 │   ├── agent-spec.md                  # Template de especificacao de agente
-│   ├── multi-agent-workflow.md        # Template de orquestracao multi-agente
+│   ├── multi-agent-workflow.md        # Template com Evaluator-Optimizer
 │   └── DISCOVERY-OUTPUT.md            # Template de captura de sessao de descoberta
 │
 ├── examples/
@@ -294,7 +364,12 @@ Esta skill foi construida a partir de ~6.000 linhas de pesquisa extensiva:
 - **Ryan Lopopolo / OpenAI** — Internal software construction process, Feb 2026
 - **Birgitta Bockeler / ThoughtWorks** — Harness taxonomy (Guides + Sensors), Martin Fowler Blog
 - **Alex Rezvov** — Spec-Driven Development four pillars
+- **Anthropic** — "Building Effective Agents" + "Effective Harnesses for Long-Running Agents"
+- **HumanLayer** — "12 Factor Agents" + "Writing a good CLAUDE.md"
+- **LangChain** — "The Anatomy of an Agent Harness"
 - **Temporal + LangGraph** — Outer/inner loop architecture for multi-agent orchestration
+- **OpenHands** — Prompt injection mitigation patterns
+- **awesome-harness-engineering** (walkinglabs) — Curated repository com todos os links e sublinks
 
 ---
 
@@ -304,4 +379,4 @@ MIT License. Veja [LICENSE](LICENSE) para detalhes.
 
 ---
 
-*Esta skill foi gerada a partir de ~6.000 linhas de pesquisa extensiva sobre o estado da arte em Harness Engineering, Spec-Driven Development e Multi-Agent Workflows — Abril 2026.*
+*Harness Engineering v3.0 — ~6.000 linhas de pesquisa validadas contra awesome-harness-engineering (walkinglabs) — Abril 2026.*
