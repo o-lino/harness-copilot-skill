@@ -50,3 +50,104 @@ jobs:
       - name: Build
         run: npm run build
         # Garante que o projeto compila sem erros
+
+  # ─── Custom Linters com Remediation Instructions ───
+  # Linters que não apenas detectam, mas ensinam o agente a corrigir
+  custom-linters:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Exemplo: Linter de arquitetura com instrução corretiva
+      - name: Architecture Fitness + Remediation
+        run: |
+          npx dependency-cruiser src \
+            --config .dependency-cruiser.js \
+            --output-type err-long \
+            --rich-footer
+        # Output formatado inclui:
+        # VIOLAÇÃO: módulo X importa de módulo proibido Y
+        # CORREÇÃO: use a interface pública em Z
+        # EXEMPLO: veja docs/patterns/{exemplo}/usage.ts
+
+      # Exemplo: Linter de type safety com remediation
+      - name: No-Any TypeScript + Remediation
+        run: |
+          npx eslint src \
+            --rule '@typescript-eslint/no-explicit-any: error' \
+            --format @microsoft/eslint-formatter-sarif
+        # Cada violação injeta no contexto do agente:
+        # VIOLAÇÃO: Uso de 'any' na linha {line}
+        # CORREÇÃO: Defina interface tipada ou use 'unknown' + type guard
+        # REFERÊNCIA: docs/patterns/type-safety.md
+
+      # Exemplo: Spec-Code Drift Detection (OpenAI pattern)
+      - name: Spec-Code Drift Check
+        run: |
+          # Verifica se cada função pública referencia um requisito da spec
+          # Falha se código existe sem rastreabilidade
+          ./scripts/check-spec-traceability.sh
+        # Garante que TODO código novo rastreia até requirements.md
+
+  # ─── Eval & Observability ───
+  # Evals sistemáticos para validar a qualidade do agente+harness
+  eval-observability:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Trace Grading: avalia traces de execução do agente
+      - name: Agent Trace Grading
+        run: |
+          # Executa golden tasks e compara output do agente com expected
+          # Output: score por critério (corretude, segurança, eficiência)
+          ./scripts/eval-agent-traces.sh --golden-tasks=evals/golden/
+        # Grava resultados em evals/results/{timestamp}.json
+
+      # No-Skill Baseline: compara agente com e sem skills
+      - name: Baseline Comparison (with/without skills)
+        run: |
+          # Executa mesma task com skills habilitadas e desabilitadas
+          # Métrica: delta de qualidade para justificar complexidade do harness
+          ./scripts/eval-baseline.sh
+        # Se delta < 10%, skill pode ser over-engineering
+
+      # Deterministic Verifiers: testes que NÃO dependem de LLM-as-judge
+      - name: Deterministic Verifiers
+        run: |
+          # Verificadores mecânicos: parse de output, schema validation
+          # Preferir verificadores determinísticos sobre LLM-as-judge
+          ./scripts/deterministic-verifiers.sh
+        # Exemplos: output é JSON válido? Schema bate? Traceabilidade completa?
+
+      # Telemetria do Agente (12-Factor #9, #12)
+      - name: Agent Telemetry Export
+        run: |
+          # Exporta métricas: tempo por task, taxa de retry, score de qualidade
+          # Formato: OpenTelemetry-compatible
+          ./scripts/export-telemetry.sh --format=otel
+        # Dashboard: evals/dashboard/
+
+  # ─── Entropy Management / Doc-Gardening ───
+  # Garante que docs e specs não desatualizam silenciosamente
+  entropy-management:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Spec-Code Consistency Check
+        run: |
+          # Verifica se specs referenciam código que ainda existe
+          # Alerta quando spec menciona arquivo/módulo deletado
+          ./scripts/check-spec-consistency.sh
+
+      - name: Dead Code Detection
+        run: |
+          # Detecta código não testado e não referenciado
+          # Princípio: se não é testado, não existe
+          npx ts-prune --ignore "node_modules|dist"
+
+      - name: Documentation Drift Check
+        run: |
+          # Verifica se exemplos em docs ainda compilam/passam
+          ./scripts/check-doc-examples.sh

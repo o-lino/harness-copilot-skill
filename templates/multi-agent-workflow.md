@@ -2,7 +2,7 @@
 
 > **Versão:** 1.0.0
 > **Data:** {DD/MM/AAAA}
-> **Padrão:** Sequential | Fan-Out | Orchestrator-Worker | Hierarchical | Event-Driven
+> **Padrão:** Sequential | Fan-Out | Orchestrator-Worker | Hierarchical | Event-Driven | Evaluator-Optimizer
 > **Descoberta Interativa:** Realizada em {DD/MM/AAAA}
 
 ---
@@ -30,6 +30,70 @@
 | **Orchestrator-Worker** | {justificativa se aplicável} | — |
 | **Hierarchical** | {justificativa se aplicável} | — |
 | **Event-Driven** | {justificativa se aplicável} | — |
+| **Evaluator-Optimizer** | {justificativa se aplicável} | — |
+
+---
+
+## Evaluator-Optimizer Loop (Anthropic Pattern)
+
+> Use este padrão quando qualidade > velocidade. Dois agentes em loop iterativo.
+
+### Configuração
+
+| Campo | Valor |
+|---|---|
+| **Generator Agent** | {descrição do agente que gera} |
+| **Evaluator Agent** | {descrição do agente que avalia} |
+| **Critérios de Avaliação** | {lista de critérios objetivos} |
+| **Máximo de Iterações** | {ex: 3} |
+| **Threshold de Aprovação** | {ex: 90% dos critérios} |
+
+### Fluxo
+
+```
+Generator → Produz código
+    ↓
+Evaluator → Avalia contra critérios
+    ↓
+Aprovado? → SIM → Fim
+    ↓ NÃO
+Evaluator → Gera feedback estruturado
+    ↓
+Generator → Revisita código com feedback
+    ↓
+(Repete até aprovação ou max iterações)
+```
+
+### Critérios de Avaliação (exemplo)
+
+| Critério | Peso | Como verificar |
+|---|---|---|
+| Spec traceability | 30% | Cada requisito coberto? |
+| Sensors passando | 25% | Lint, test, type-check limpos? |
+| Qualidade do código | 20% | Sem code smells, DRY, SRP |
+| Performance | 15% | Complexidade aceitável? |
+| Segurança | 10% | Sem vulnerabilidades óbvias? |
+
+### Template de Feedback do Evaluator
+
+```markdown
+## Avaliação — Iteração {N}
+
+**Score:** {X}/100
+
+| Critério | Status | Observação |
+|---|---|---|
+| Spec traceability | ✅/❌ | {detalhe} |
+| Sensors | ✅/❌ | {detalhe} |
+| Qualidade | ✅/❌ | {detalhe} |
+
+### Feedback para Generator
+1. {ação específica necessária}
+2. {ação específica necessária}
+
+### Código a Revisar
+- `src/arquivo.ts:linha` — {problema}
+```
 
 ---
 
